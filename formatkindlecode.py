@@ -20,8 +20,22 @@ class KindleCodeFormater():
 
 	def formatedCodeToClipboard(self):
 		self._root.clipboard_append(self._formatedKindleCode)
+		self.showTempConfirmAndDestroy()
+		
+	def showTempConfirmAndDestroy(self):
+		'''
+		Displays a temporary MessageBox to inform that the job was done and
+		close the app.
+		'''
+		from tkinter import messagebox
+
 		self._root.update() # now it stays on the clipboard after the window is closed
-		self._root.destroy() 
+		self._root.after(1500, self._root.destroy) # Destroy the widget after 1.5 seconds
+		try:
+			if messagebox.showinfo('formatkindlecode', 'Formatted code copied to clipboard'):
+				self._root.destroy()
+		except:
+			pass
 		
 	def _removeSpaceInMatrices(self, codeStr):
 		pattern = r"(\[[\d\w ;]+\])"
